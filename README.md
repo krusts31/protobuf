@@ -3,11 +3,6 @@
 seriliztion vs deserilization
 what format to chose for seriliztion
 
-
-
-
-
-
 Lets say we have a object like 
 ```
 User
@@ -18,10 +13,13 @@ password: hahah
 So we would change this object to some datastructure to save it.
 Then we would the data saved datastructure and "deserialize it" to get data.
 
-
 1. The ideal serilization protocol would be language agnosite so we would be able to open it multiple languages and it would work acres OS.
 2. Size of serialized data is as little as possible
 3. Keep the relationships between objects.
+
+## how to name file
+
+`.proto`
 
 ### A good rool of thumb
 the `smaller` the serilized data the harded human redeable it becomes
@@ -125,6 +123,10 @@ message Book {
 }
 ```
 
+You can use complex tyes as values but only simples types like int and string ar accepted as keys.
+You can not put `repteted` before the keyword `map`.
+defualt value empty map.
+
 ## Nestaed
 
 ```protobuf
@@ -148,5 +150,45 @@ enum FileType {
 }
 ```
 
+## OneOfs
+
+The value can only be 1 or the other.
+
+Use full for clasification models where the value is like on this is 0.76% dog.
+
+Default value is OneOn with out default set.
+
+```protobuf
+message CatOrDog {
+  oneof results {
+    float cat = 1;
+    float dog = 2;
+  }
+}
+```
 
 
+## How to import proto file in a nother protofile
+
+
+```protobuf
+import "myfile.proto";
+```
+
+## PACKAGES
+
+
+```protobuf
+package mycompany.fs// mycompany is the parent dir and //fs file name
+```
+
+
+```protobuf
+package mycompany.fs; 
+
+import “google/protobuf/timestamp.proto”; 
+
+message File {
+  google.protobuf.Timestamp created_at = 1;
+} 
+```
