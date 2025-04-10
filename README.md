@@ -437,7 +437,8 @@ import "Video.proto";
 message Lecture {
   oneof Content {
     mycompany.mooc.conntent.Video Video = 1;
-    mycompany.mooc.conntent.Article Article = 2;
+    conntent.Article Article = 2;
+//you can also use package naem difference so mycompany.mooc.conntent - mycompany.mooc = conntent
   }
 }
 ```
@@ -445,6 +446,7 @@ message Lecture {
 ##### `Course.proto`
 
 ```protobuf
+
 package mycompany.mooc;
 
 import "Lecture.proto";
@@ -455,3 +457,28 @@ message Course {
   map<string, mycompany.mooc.Lecture>Lectures = 3;
 }
 ```
+
+## COMPILER
+
+```bash
+brew install protobuf
+```
+
+### Create file for programs
+```bash
+#here you can generate a pytyon out
+protoc --python_out=. dummy.proto
+#add -I just like in C when you need to tell protoc where to find proto files for compilation
+```
+
+### To encode the data
+```bash
+cat test.txt | protoc --encode=Course all_in_one.proto #encode
+
+cat test.txt | protoc --encode=Course all_in_one.proto > test.bin
+cat test.bin | protoc --decode=Course all_in_one.proto #decode
+cat test.bin | protoc --decode_raw #here you can decode protoc if you don't know how the schema looks like
+```
+
+	
+

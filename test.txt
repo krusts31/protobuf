@@ -1,0 +1,20 @@
+name: "Intro"
+authors: "Ivars Skariens"
+authors: "Dinka Pinka"
+lectures: {
+  key: "Field Anatomy"
+  value: {
+    video: {
+      type: MP4
+      url: "google.com"
+    }
+  }
+}
+lectures: {
+  key: "Decode/Encode"
+  value: {
+    article: {
+      text: "Encode and Decode are great!"
+    }
+  }
+}
