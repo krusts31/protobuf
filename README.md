@@ -192,3 +192,146 @@ message File {
   google.protobuf.Timestamp created_at = 1;
 } 
 ```
+
+## Nested Messages
+
+```protobuf
+message Cat {
+  enum Breed {
+    UNSPECIFIED = 0;
+    BENGAL = 1;
+    BURMESE = 2;
+  } 
+
+  Breed breed = 1;
+} 
+
+message Dog {
+  enum Breed {
+    UNSPECIFIED = 0;
+    DALMATIAN = 1;
+    DOBERMANN = 2;
+    //…
+  } 
+
+  Breed breed = 1;
+} 
+```
+
+## EXERCISE
+
+1. All in one .proto file as same level messages
+```protobuf
+
+message Article {
+  string Text = 1;
+}
+
+enum VideoType {
+  UNSPECIFIED = 0;
+  MP4 = 1;
+  MOV = 2;
+}
+
+message Video {
+  VideoType Type = 1;
+  string URL = 2;
+}
+
+message Content {
+  oneof {
+    Video video = 1;
+    Article article = 2;
+  }
+}
+
+message Course {
+  string Name = 1;
+  repeted string Authors = 2;
+  map<string, Lecture> Lecture = 3;
+}
+```
+
+2. All in one .proto file as nested messages 
+
+```protobuf
+message Course {
+
+  message Article {
+    string Text = 1;
+  }
+
+  enum VideoType {
+    UNSPECIFIED = 0;
+    MP4 = 1;
+    MOV = 2;
+  }
+
+  message Video {
+    VideoType Type = 1;
+    string URL = 2;
+  }
+
+  message Lecture {
+    oneof Content {
+      Video video = 1;
+      Article article = 2;
+    }
+  }
+
+  string Name = 1;
+  repeted string Authors = 2;
+  map<string, Lecture>Lectures = 3;
+}
+```
+
+3. Separate files with imports (a message per file) where VideoType is in the same file as Video
+
+##### `Articel.proto`
+
+```protobuf
+message Article {
+  string Text = 1;
+}
+```
+
+##### `Video.proto`
+
+```protobuf
+enum VideoType {
+  UNSPECIFIED = 0;
+  MP4 = 1;
+  MOV = 2;
+}
+
+message Video {
+  VideoType Type = 1;
+  string URL = 2;
+}
+```
+
+##### `Lecture.proto`
+
+```protobuf
+import "Article.proto";
+import "Video.proto";
+
+message Lecture {
+  oneof Content {
+    Video Video = 1;
+    Article Article = 2;
+  }
+}
+```
+
+##### `Course.proto`
+
+```protobuf
+import "Lecture.proto";
+
+message Course {
+  string Name = 1;
+  repeted string Authors = 2;
+  map<string, Lecture>Lectures = 3;
+}
+```
