@@ -111,9 +111,11 @@ in protobuf 3 all the values are optional.
 
 ## ARRAY
 
+```protobuf
 message book {
-	repeated string test = 1;
+	repeated string test = 1;//default value is []
 }
+```
 
 ## MAPS
 
@@ -135,6 +137,16 @@ message test_2 {
 }
 ```
 
-## OnOf
+## Enumurations
+
+```protobuf
+enum FileType {
+	UNSPECIFIED = 0; //default value on enum
+	MP3 = 1;
+	MP4 = 2;
+	JPG = 3;
+}
+```
+
 
 
