@@ -335,3 +335,125 @@ message Course {
   map<string, Lecture>Lectures = 3;
 }
 ```
+
+4. Separate files with imports and packages (a message per file all under the same package)
+
+##### `Articel.proto`
+
+```protobuf
+message Article {
+  string Text = 1;
+}
+```
+
+##### `Video.proto`
+
+```protobuf
+enum VideoType {
+  UNSPECIFIED = 0;
+  MP4 = 1;
+  MOV = 2;
+}
+
+message Video {
+  VideoType Type = 1;
+  string URL = 2;
+}
+```
+
+##### `Lecture.proto`
+
+```protobuf
+package mycompany.mooc;
+
+import "Article.proto";
+import "Video.proto";
+
+message Lecture {
+  oneof Content {
+    Video Video = 1;
+    Article Article = 2;
+  }
+}
+```
+
+##### `Course.proto`
+
+```protobuf
+package mycompany.mooc;
+
+import "Lecture.proto";
+
+message Course {
+  string Name = 1;
+  repeted string Authors = 2;
+  map<string, mycompany.mooc.Lecture>Lectures = 3;
+}
+```
+
+5. Separate files with imports and packages (a message per file all under the same package)
+
+##### `Articel.proto`
+
+```protobuf
+package mycompany.mooc.conntent;
+
+message Article {
+  string Text = 1;
+}
+```
+
+##### `VideoType.proto`
+
+```protobuf
+package mycompany.mooc.conntent;
+
+enum VideoType {
+  UNSPECIFIED = 0;
+  MP4 = 1;
+  MOV = 2;
+}
+```
+
+##### `Video.proto`
+
+```protobuf
+package mycompany.mooc.conntent;
+
+import "VideoType.proto";
+
+message Video {
+  mycompany.mooc.conntent.VideoType Type = 1;
+  string URL = 2;
+}
+```
+
+##### `Lecture.proto`
+
+```protobuf
+package mycompany.mooc;
+
+import "Article.proto";
+import "Video.proto";
+
+message Lecture {
+  oneof Content {
+    mycompany.mooc.conntent.Video Video = 1;
+    mycompany.mooc.conntent.Article Article = 2;
+  }
+}
+```
+
+##### `Course.proto`
+
+```protobuf
+package mycompany.mooc;
+
+import "Lecture.proto";
+
+message Course {
+  string Name = 1;
+  repeted string Authors = 2;
+  map<string, mycompany.mooc.Lecture>Lectures = 3;
+}
+```
