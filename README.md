@@ -247,8 +247,8 @@ message Content {
 
 message Course {
   string Name = 1;
-  repeted string Authors = 2;
-  map<string, Lecture> Lecture = 3;
+  repeted string authors = 2;
+  map<string, Lecture> lecture = 3;
 }
 ```
 
@@ -256,23 +256,21 @@ message Course {
 
 ```protobuf
 message Course {
-
-  message Article {
-    string Text = 1;
-  }
-
-  enum VideoType {
-    UNSPECIFIED = 0;
-    MP4 = 1;
-    MOV = 2;
-  }
-
-  message Video {
-    VideoType Type = 1;
-    string URL = 2;
-  }
-
   message Lecture {
+    message Viedo {
+      enum Type {
+        UNSPECIFIED = 0;
+        MP4 = 1;
+        MOV = 2;
+      }
+      VideoType Type = 1;
+      string URL = 2;
+    }
+
+    message Article {
+      string Text = 1;
+    }
+
     oneof Content {
       Video video = 1;
       Article article = 2;
