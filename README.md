@@ -1,0 +1,140 @@
+# PROTOBUF
+
+seriliztion vs deserilization
+what format to chose for seriliztion
+
+
+
+
+
+
+Lets say we have a object like 
+```
+User
+username: lol
+password: hahah
+```
+
+So we would change this object to some datastructure to save it.
+Then we would the data saved datastructure and "deserialize it" to get data.
+
+
+1. The ideal serilization protocol would be language agnosite so we would be able to open it multiple languages and it would work acres OS.
+2. Size of serialized data is as little as possible
+3. Keep the relationships between objects.
+
+### A good rool of thumb
+the `smaller` the serilized data the harded human redeable it becomes
+the `bigger` the serilized data the harder machine redables it becomes.
+
+## Most popular serilization fromats
+
+XML 1998
+very verbose, has a lot of boilder plate
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<root testAttr="testValue">
+  <result>
+    <child>data1</child>
+    <child>A1343358848.646</child>
+    <child>
+      <internal>
+       <data>one</data>
+       <data>two</data>
+       <unique>Z1343358848.646</unique>
+</internal>
+    </child>
+  </result>
+</root>
+```
+JSON 2000
+less verbose, has types, has arrays
+```json
+{
+  "id":"6ce4a00a-677d-4265-8144-4873d3d0075d",
+  "url":"https://api.filepreviews.io/v2/previews/6ce4a00a-677d-4265-8144-4873d3d0075d/",
+  "year": 2009,
+  "status":"success",
+  "names": ["Alex", "Dude"]
+  "preview":{
+    "original_size":{
+      "width":"1280",
+      "height":"1024"
+    },
+  },
+}
+```
+
+ProtoBuff 2001(dev) 2008 (public)
+
+```protobuf
+sytax = "proto3";
+
+message Book {
+  string name = "Aasd";
+  uint32 age = 23";
+  age = 23";
+}
+```
+
+When it is serilized it gets converted in to binary but you can read in hexadecimal.
+
+## Compiler
+
+protobuff has a `Protoc` Compiler.
+So you can feed in protovuf schema and it will transpile it to a choosen language giveing you the ideal storage types.
+
+## Baisic types
+
+int, float, string, bool
+
+## WHAT HAppens to the name?
+
+it does not get serilized.
+
+## What are TAGS
+
+min is 1 max go up to 500`000`000.
+19`000 to 19999 are used for libs.
+
+Tag is what is set after = ;
+so 1 would be a tag here
+
+message Book {
+	string lol = 1;
+}
+
+
+## NULL
+
+in protobuf 3 all the values are optional.
+
+## ARRAY
+
+message book {
+	repeated string test = 1;
+}
+
+## MAPS
+
+```protobuf
+message Book {
+  map<string, string> contacts = 1;
+}
+```
+
+## Nestaed
+
+```protobuf
+message gf {
+  string name = 1;
+}
+
+message test_2 {
+  repeted gf nested = 1;
+}
+```
+
+## OnOf
+
+
