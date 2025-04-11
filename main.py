@@ -1,6 +1,7 @@
 import sys 
 import account_pb2 as account_pb
 import user_pb2 as user_pb
+import product_pb2 as product_pb
 
 def account():
 	return account_pb.Account(
@@ -8,6 +9,12 @@ def account():
 		name='Linus_Torvals',
 		is_verified=True,
 		follow_ids=[0,1]
+	)
+
+def product():
+	return product_pb.Product(
+		id=42,
+		type=product_pb.ProductType.PANTS,# you can also use the tag = 1;
 	)
 
 def user():
@@ -34,6 +41,7 @@ if __name__ == '__main__':
 		'account': account,
 		'user': user,
 		'user2': user2,
+		'product': product,
 	}
 	if len(sys.argv) != 2:
 		print(f'Usage: main.py [{"|".join(fns)}]')
