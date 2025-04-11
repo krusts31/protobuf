@@ -2,6 +2,21 @@ import sys
 import account_pb2 as account_pb
 import user_pb2 as user_pb
 import product_pb2 as product_pb
+import phone_book_pb2 as phone_book_pb
+
+def phone_book():
+	return phone_book_pb.PhoneBook(
+		phones={
+			'Linux Tox': '12341234234',
+			'Testing': '12341234234'
+		}
+	)
+
+def phone_book2():
+	book = phone_book_pb.PhoneBook()
+	book.phones['Linux Tox'] = "21341234";
+	book.phones['Dudes'] = "123412342134123";
+	return book
 
 def account():
 	return account_pb.Account(
@@ -42,6 +57,8 @@ if __name__ == '__main__':
 		'user': user,
 		'user2': user2,
 		'product': product,
+		'phone': phone_book,
+		'phone2': phone_book2,
 	}
 	if len(sys.argv) != 2:
 		print(f'Usage: main.py [{"|".join(fns)}]')
