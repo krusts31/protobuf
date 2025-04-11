@@ -4,6 +4,25 @@ import user_pb2 as user_pb
 import product_pb2 as product_pb
 import phone_book_pb2 as phone_book_pb
 import login_pb2 as login_pb
+import google.protobuf.duration_pb2 as duration_pb
+import google.protobuf.timestamp_pb2 as timestamp_pb
+import google.protobuf.field_mask_pb2 as field_mask_pb
+import google.protobuf.wrappers_pb2 as wrappers_pb
+from google.protobuf import json_format
+import datetime
+
+def durration():
+	return duration_pb.Duration(
+		seconds=3,
+		nanos=0
+	)
+
+def durration2():
+	td = datetime.timedelta(days=3, minutes=3, microseconds=15)
+	d = duration_pb.Duration()
+	d.FromTimedelta(td)
+	return d
+	
 
 def login_error():
 	return login_pb.LoginResult(
@@ -60,7 +79,78 @@ def user2():
 	u.follows.add(id=0, name="Linux Foundation")
 	u.follows.add(id=1, name="Dan Blizzard")
 	return u
+
+def timestamp():
+	t = timestamp_pb.Timestamp()
+	t.GetCurrentTime()
+	return t
+
+def field_mask():
+	acc = account()
+	fm = field_mask_pb.FieldMask(
+		paths=[
+			'id',
+			'is_verified'
+		]
+	)
+	iiv = account_pb.Account()
+	fm.MergeMessage(acc, iiv)
+	return iiv
+
+def field_mask2():
+	mask = field_mask_pb.FieldMask()
+	mask.FromJsonString('id,name')
+	mask2 = field_mask_pb.FieldMask()
+	mask2.FromJsonString('id,isVerified')
+	mask3 = field_mask_pb.FieldMask()
+	mask3.Union(mask, mask2)
+	acc = account()
+	iniv = account_pb.Account()
+	mask3.MergeMessage(acc, iniv)
+	return iniv
+
+def wrapper():
+	return [
+		wrappers_pb.BoolValue(value=True),
+		wrappers_pb.BytesValue(value=b'these are bytes'),
+		wrappers_pb.FloatValue(value=42.0),
+	]
+
+def file():
+	acc = account()
+	path = 'account.bin'
+	print('--Write to file--')
+	print(acc)
+	with open(path, 'wb') as f:
+		bytes_str = acc.SerializeToString()
+		f.write(bytes_str)
+	print('--Read From file--')
+	with open(path, 'rb') as f:
+		acc = account_pb.Account().FromString(f.read())
+	print(acc)
+
+def to_json(message):
+	return json_format.MessageToJson(
+		message,
+		indent=None,
+		preserving_proto_field_name=True
+	)
+
+def from_json(json_str, type):
+	return json_format.Parse(
+		json_str,
+		type(),
+		ignore_unknown_fields=True
+	)
 	
+def json():
+	acc = account()
+	json_str = to_json(acc)
+	print(json_str)
+	print('------------')
+	print(from_json(json_str, account_pb.Account))
+	print('------------')
+	print(from_json('{"id": 42, "lolol": "lol"}', account_pb.Account))
 
 if __name__ == '__main__':
 	fns = {
@@ -72,6 +162,14 @@ if __name__ == '__main__':
 		'phone2': phone_book2,
 		'login_error': login_error,
 		'login_token': login_success,
+		'durration': durration,
+		'durration2': durration2,
+		'timestamp': timestamp,
+		'field_mask': field_mask,
+		'field_mask2': field_mask2,
+		'wrapper': wrapper,
+		'file': file,
+		'json': json,
 	}
 	if len(sys.argv) != 2:
 		print(f'Usage: main.py [{"|".join(fns)}]')

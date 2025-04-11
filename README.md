@@ -485,4 +485,8 @@ cat test.bin | protoc --decode_raw #here you can decode protoc if you don't know
 
 ## PYTHON WITH PROTOBUF
 
+### fieldmasks
+
+so lets say you would print the whole message. 
+Okay cool, but lets say you only want to print a part of the message that is when you would use a field mask.
 
