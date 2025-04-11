@@ -3,6 +3,17 @@ import account_pb2 as account_pb
 import user_pb2 as user_pb
 import product_pb2 as product_pb
 import phone_book_pb2 as phone_book_pb
+import login_pb2 as login_pb
+
+def login_error():
+	return login_pb.LoginResult(
+		error="Ther username is incorect"
+	)
+
+def login_success():
+	return login_pb.LoginResult(
+		token=login_pb.Token()
+	)
 
 def phone_book():
 	return phone_book_pb.PhoneBook(
@@ -59,6 +70,8 @@ if __name__ == '__main__':
 		'product': product,
 		'phone': phone_book,
 		'phone2': phone_book2,
+		'login_error': login_error,
+		'login_token': login_success,
 	}
 	if len(sys.argv) != 2:
 		print(f'Usage: main.py [{"|".join(fns)}]')
