@@ -1,5 +1,7 @@
 # PROTOBUF
 
+<mark>There is also a thing called FlatBuffers that is worth checking out if you ever return to this repo when thinking if to use protbuf</mark>
+
 seriliztion vs deserilization
 what format to chose for seriliztion
 
